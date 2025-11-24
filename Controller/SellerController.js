@@ -4,10 +4,8 @@ const jwt = require('jsonwebtoken');
 const SellerLogin = async (req, res) => {
     const { email, password } = req.body;
     try {
-        // if (password === process.env.SELLER_PASSWORD && email === process.env.SELLER_EMAIL) {
-        if (password === "user@12345" && email === "admin@example.com") {
-            // const token = jwt.sign({ email }, process.env.JWT_SECRET, {
-            const token = jwt.sign({ email }, "secrectKey", {
+        if (password === process.env.SELLER_PASSWORD && email === process.env.SELLER_EMAIL) {
+            const token = jwt.sign({ email }, process.env.JWT_SECRET, {
                 expiresIn: '7d'
             });
             res.cookie('sellerToken', token, {

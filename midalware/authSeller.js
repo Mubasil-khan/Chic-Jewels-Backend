@@ -9,11 +9,9 @@ const AuthSeller = async (req, res, next) => {
     }
 
     try {
-        // const decoded = jwt.verify(sellerToken, process.env.JWT_SECRET)
-        const decoded = jwt.verify(sellerToken, "secrectKey")
+        const decoded = jwt.verify(sellerToken, process.env.JWT_SECRET)
 
-        // if (decoded.email == process.env.SELLER_EMAIL) {
-        if (decoded.email == "admin@example.com") {
+        if (decoded.email == process.env.SELLER_EMAIL) {
             res.json({ success: true, message: 'success' })
             return next()
         }
