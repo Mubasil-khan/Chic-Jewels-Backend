@@ -30,7 +30,8 @@ const register = async (req, res) => {
         });
 
         // Create JWT token
-        const token = jwt.sign({ id: createdUser._id }, process.env.JWT_SECRET, {
+        // const token = jwt.sign({ id: createdUser._id }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: createdUser._id }, "secrectKey", {
             expiresIn: "7d",
         });
 
@@ -71,7 +72,8 @@ const LoginUser = async (req, res) => {
             return res.json({ succes: false, message: "InValid Password" })
         }
 
-        const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+        // const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
+        const token = jwt.sign({ id: existingUser._id }, "secrectKey", {
             expiresIn: "7d",
         });
         res.cookie("token", token, {

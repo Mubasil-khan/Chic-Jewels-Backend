@@ -6,7 +6,8 @@ const SellerLogin = async (req, res) => {
     try {
         // if (password === process.env.SELLER_PASSWORD && email === process.env.SELLER_EMAIL) {
         if (password === "user@12345" && email === "admin@example.com") {
-            const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+            // const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+            const token = jwt.sign({ email }, "secrectKey", {
                 expiresIn: '7d'
             });
             res.cookie('sellerToken', token, {
