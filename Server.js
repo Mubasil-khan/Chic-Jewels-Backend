@@ -15,10 +15,12 @@ const app = express()
 
 const port = process.env.PORT || 4000
 
-const allowedOrigins = ["https://chicjewelsbyayesha.netlify.app" || 'http://localhost:3000']
+const allowedOrigins = ["https://chicjewelsbyayesha.netlify.app"]
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
+
+app.set("trust proxy", 1);
 
 app.use(cookieParser())
 app.use(cors({ origin: allowedOrigins, credentials: true }))

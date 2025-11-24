@@ -10,8 +10,11 @@ const SellerLogin = async (req, res) => {
             });
             res.cookie('sellerToken', token, {
                 httpOnly: true,
-                maxAge: 60 * 60 * 24 * 7 * 1000, // 7 days
-            })
+                secure: process.env.NODE_ENV === 'production',  // Render पर true
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            });
+
             return res.json({ success: true, message: "🎉 Welcome back, Seller!  " })
         }
         else {
