@@ -132,12 +132,13 @@ const createorder = async (req, res) => {
         }
 
         // Send email to admin
-        await sendEmail(
-            process.env.ADMIN_EMAIL,
-            "New Order Received - FoodApp",
-            "A new order has been placed.",
-            adminEmailHTML
-        );
+
+        // await sendEmail(
+        //     process.env.ADMIN_EMAIL,
+        //     "New Order Received - FoodApp",
+        //     "A new order has been placed.",
+        //     adminEmailHTML
+        // );
 
         res.json({ success: true, message: "Order Placed & Emails Sent" });
     } catch (error) {
