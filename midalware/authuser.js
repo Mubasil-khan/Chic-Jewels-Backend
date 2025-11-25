@@ -4,7 +4,7 @@ const authUser = async (req, res, next) => {
 
     const { UserToken } = req.cookies;
 
-    if (!token) {
+    if (!UserToken) {
         return res.json({ success: false, message: 'not a token' })
     }
 
