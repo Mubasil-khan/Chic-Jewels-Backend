@@ -2,10 +2,10 @@ const jwt = require("jsonwebtoken");
 
 const authUser = async (req, res, next) => {
 
-    const { UserToken } = req.cookies;
+    const { token } = req.cookies?.UserToken || null;
 
-    if (!UserToken) {
-        return res.json({ success: false, message: 'not a token' })
+    if (!token) {
+        return res.json({ success: false, message: 'not a UserToken' })
     }
 
     try {
