@@ -1,27 +1,20 @@
-const jwt = require("jsonwebtoken")
-
-const AuthSeller = async (req, res, next) => {
-
-    const { sellerToken } = req.cookies;
-
-    if (!sellerToken) {
-        return res.json({ success: false, message: "Not Authorize" })
-    }
+// AuthSeller middleware
+const AuthSeller = (req, res, next) => {
+    const token = req.cookies?.sellerToken;
+    if (!token) return res.status(401).json({ success: false, message: "Not Authorized" });
 
     try {
-        const decoded = jwt.verify(sellerToken, process.env.JWT_SECRET)
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        // optionally check email
+        if (decoded.email !== process.env.SELLER_EMAIL) {
+            return res.status(403).json({ success: false, message: "Forbidden" });
+        }
 
-        if (decoded.email == process.env.SELLER_EMAIL) {
-            res.json({ success: true, message: 'success' })
-            return next()
-        }
-        else {
-            res.json({ success: false, message: 'not a token' })
-        }
+        req.seller = decoded; // attach data for next handlers
+        return next();
     } catch (error) {
-        res.json({ success: false, message: "error.message" })
-
+        return res.status(401).json({ success: false, message: error.message });
     }
-}
+};
 
-module.exports = { AuthSeller }
+module.exports = { AuthSeller };

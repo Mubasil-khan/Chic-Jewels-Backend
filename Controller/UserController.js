@@ -35,9 +35,9 @@ const register = async (req, res) => {
         });
 
         // Set cookie
-        res.cookie('sellerToken', token, {
+        res.cookie('UserToken', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',  // Render पर true
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
@@ -76,9 +76,9 @@ const LoginUser = async (req, res) => {
         const token = jwt.sign({ id: existingUser._id }, process.env.JWT_SECRET, {
             expiresIn: "7d",
         });
-        res.cookie('sellerToken', token, {
+        res.cookie('UserToken', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: process.env.NODE_ENV === 'production',  // Render पर true
             sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         });
@@ -129,7 +129,7 @@ const isAuth = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        res.clearCookie('token', {
+        res.clearCookie('UserToken', {
             http: true
         })
         return res.json({ success: true, message: "Logout Successfully" })

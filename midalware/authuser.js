@@ -1,28 +1,15 @@
-const jwt = require("jsonwebtoken");
-
-const authUser = async (req, res, next) => {
-
-    const { token } = req.cookies;
-
-    if (!token) {
-        return res.json({ success: false, message: 'not a token' })
-    }
+// authUser middleware
+const authUser = (req, res, next) => {
+    const token = req.cookies?.token;
+    if (!token) return res.status(401).json({ success: false, message: 'Not authorized' });
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-
-        if (decoded.id) {
-            req.userId = decoded.id
-            return next();
-        }
-        else {
-            res.json({ success: false, message: 'token issue' })
-        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.userId = decoded.id;
+        return next();
     } catch (error) {
-        res.json({ success: false, message: error.message })
+        return res.status(401).json({ success: false, message: error.message });
     }
+};
 
-
-}
-
-module.exports = { authUser }
+module.exports = { authUser };
