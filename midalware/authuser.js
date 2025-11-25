@@ -1,15 +1,28 @@
-// authUser middleware
-const authUser = (req, res, next) => {
-    const token = req.cookies?.token;
-    if (!token) return res.status(401).json({ success: false, message: 'Not authorized' });
+const jwt = require("jsonwebtoken");
+
+const authUser = async (req, res, next) => {
+
+    const { token } = req.cookies;
+
+    if (!token) {
+        return res.json({ success: false, message: 'not a token' })
+    }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.userId = decoded.id;
-        return next();
-    } catch (error) {
-        return res.status(401).json({ success: false, message: error.message });
-    }
-};
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-module.exports = { authUser };
+        if (decoded.id) {
+            req.userId = decoded.id
+            return next();
+        }
+        else {
+            res.json({ success: false, message: 'token issue' })
+        }
+    } catch (error) {
+        res.json({ success: false, message: error.message })
+    }
+
+
+}
+
+module.exports = { authUser }

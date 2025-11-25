@@ -130,7 +130,7 @@ const isAuth = async (req, res) => {
 const logout = async (req, res) => {
     try {
         res.clearCookie('UserToken', {
-            http: true
+            httpOnly: true
         })
         return res.json({ success: true, message: "Logout Successfully" })
     } catch (error) {
